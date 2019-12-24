@@ -1,6 +1,11 @@
 var request = require('request')
 var async = require('async')
 var fs = require('fs')
+var express = require('express')
+var app = express()
+
+app.use(express.static('data'))
+app.listen(8080)
 
 var getData = () => {
     request('https://sightmap.com/app/api/v1/5rxwj9yxp1e/sightmaps/956', (err, response, body) => {
@@ -21,8 +26,12 @@ var getData = () => {
             })
         }, (err, result) => {
             result = result.filter((r) => r !== undefined)
-            fs.writeFileSync('data/' + new Date().getTime() + '.json', JSON.stringify({
-                date: new Date().getTime(),
+            var timestamp = new Date().getTime()
+            var toc = JSON.parse(fs.readFileSync('data/toc.json'))
+            toc.timestamps.push(timestamp)
+            fs.writeFileSync('data/toc.json', JSON.stringify(toc))
+            fs.writeFileSync('data/' + timestamp + '.json', JSON.stringify({
+                date: timestamp,
                 data: result
             }))
         })
@@ -30,4 +39,4 @@ var getData = () => {
     })
 }
 
-getData()
+setInterval(getData, 21600000)
