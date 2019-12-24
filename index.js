@@ -14,16 +14,11 @@ var getData = () => {
             unit_number: unit.unit_number,
             area: unit.area,
         }))
-        async.mapLimit(units, 3, (unit, callback) => {
-            request(`https://sightmap.com/app/api/v1/5rxwj9yxp1e/leasing/669/unit/${unit.id}?sightmap_id=956&date=2020-02-19`, (err, response, body) => {
-                var yearLease = JSON.parse(body).data.options.find((option) => option.lease_term === 12)
-                if(!yearLease) {
-                    return callback()
-                }
-
-                var yearLeasePrice = Number(yearLease.display_price.replace('$', '').replace(',', ''))
-                unit.price = yearLeasePrice
-                callback(undefined, unit)
+        async.mapLimit(units, 2, (unit, callback) => {
+            async.mapLimit([14, 17, 19, 21, 24, 26], 3, (day, callback) => {
+                getPrice(unit, day, callback)
+            }, (err, result) => {
+                callback(err, result)
             })
         }, (err, result) => {
             result = result.filter((r) => r !== undefined)
@@ -36,6 +31,20 @@ var getData = () => {
                 data: result
             }))
         })
+    })
+}
+
+var getPrice = (unit, day, callback) => {
+    request(`https://sightmap.com/app/api/v1/5rxwj9yxp1e/leasing/669/unit/${unit.id}?sightmap_id=956&date=2020-02-${day}`, (err, response, body) => {
+        var yearLease = JSON.parse(body).data.options.find((option) => option.lease_term === 12)
+        if(!yearLease) {
+            return callback()
+        }
+
+        var yearLeasePrice = Number(yearLease.display_price.replace('$', '').replace(',', ''))
+        unit.price = unit.price || {}
+        unit.price[day] = yearLeasePrice
+        callback(undefined, unit)
     })
 }
 
