@@ -24,6 +24,19 @@ var getData = () => {
             result = result.filter((r) => r !== undefined)
             var timestamp = new Date().getTime()
             var toc = JSON.parse(fs.readFileSync('data/toc.json'))
+
+            var lastTime = toc.timestamps[toc.timestamps.length - 1]
+
+            if(lastTime) {
+                var lastData = JSON.parse(fs.readFileSync(`data/${lastTime}.json`)).data
+
+                if(JSON.stringify(lastData) == JSON.stringify(result)) {
+                    // No Change.
+                    console.log('Requested Data, no change: ' + new Date().toISOString())
+                    return
+                }
+            }
+
             toc.timestamps.push(timestamp)
             fs.writeFileSync('data/toc.json', JSON.stringify(toc))
             fs.writeFileSync('data/' + timestamp + '.json', JSON.stringify({
