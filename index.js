@@ -39,4 +39,6 @@ var getData = () => {
     })
 }
 
-setInterval(getData, 21600000)
+getData()
+
+setInterval(getData, 3600000)
