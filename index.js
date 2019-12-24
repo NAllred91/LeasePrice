@@ -11,6 +11,7 @@ app.listen(3000)
 try{
     fs.readFileSync('data/toc.json')
 } catch(err) {
+    fs.mkdirSync('data')
     fs.writeFileSync('data/toc.json', '{"timestamps":[]}')
 }
 
