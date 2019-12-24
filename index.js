@@ -23,7 +23,7 @@ var getData = () => {
             area: unit.area,
         }))
         async.mapLimit(units, 2, (unit, callback) => {
-            async.mapLimit([13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27], 3, (day, callback) => {
+            async.mapLimit([4, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27], 3, (day, callback) => {
                 getPrice(unit, day, callback)
             }, (err, result) => {
                 callback(err, unit)

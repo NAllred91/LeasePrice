@@ -34,7 +34,7 @@ class App extends React.Component {
         February <select value={this.state.moveInDate} onChange={(e) => {
           this.setState({moveInDate: e.target.value})
         }}>
-          {[13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27].map(i => <option value={i}>{i}</option>)}
+          {[4, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27].map(i => <option value={i}>{i}</option>)}
         </select>
         <img style={{
           height: '460px',
