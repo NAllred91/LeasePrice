@@ -5,6 +5,7 @@ var express = require('express')
 var app = express()
 
 app.use(express.static('data'))
+app.use(express.static('client/build'))
 app.listen(3000)
 
 var getData = () => {
@@ -21,7 +22,7 @@ var getData = () => {
                 callback(err, unit)
             })
         }, (err, result) => {
-            result = result.filter((r) => r !== undefined)
+            result = result.filter((r) => r !== undefined && r.price !== undefined)
             var timestamp = new Date().getTime()
             var toc = JSON.parse(fs.readFileSync('data/toc.json'))
 
