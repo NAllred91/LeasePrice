@@ -5,7 +5,7 @@ var express = require('express')
 var app = express()
 
 app.use(express.static('data'))
-app.listen(80)
+app.listen(3000)
 
 var getData = () => {
     request('https://sightmap.com/app/api/v1/5rxwj9yxp1e/sightmaps/956', (err, response, body) => {
