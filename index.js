@@ -18,7 +18,7 @@ var getData = () => {
             async.mapLimit([14, 17, 19, 21, 24, 26], 3, (day, callback) => {
                 getPrice(unit, day, callback)
             }, (err, result) => {
-                callback(err, result)
+                callback(err, unit)
             })
         }, (err, result) => {
             result = result.filter((r) => r !== undefined)
