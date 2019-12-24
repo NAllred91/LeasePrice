@@ -8,6 +8,12 @@ app.use(express.static('data'))
 app.use(express.static('client/build'))
 app.listen(3000)
 
+try{
+    fs.readFileSync('data/toc.json')
+} catch(err) {
+    fs.writeFileSync('data/toc.json', '{"timestamps":[]}')
+}
+
 var getData = () => {
     request('https://sightmap.com/app/api/v1/5rxwj9yxp1e/sightmaps/956', (err, response, body) => {
         var units = JSON.parse(body).data.units.map((unit) => ({
