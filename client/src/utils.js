@@ -34,7 +34,7 @@ var getUnitsData = (unit, date) => {
 
 var getUnitMostRecentPrice = (unit, date) => {
     var value
-    _.find(_.reverse(window.data), (d) => {
+    _.find(_.clone(_.reverse(window.data)), (d) => {
         var data = d.data.find((i) => i.unit_number === unit)
 
         if(data) {
