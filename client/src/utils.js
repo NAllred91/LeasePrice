@@ -24,7 +24,7 @@ var getUnitsData = (unit, date) => {
         var u = d.data.find((i) => i.unit_number === unit)
         if(u) {
             var dateObj = new Date(d.date)
-            var value = dateObj.getUTCFullYear() + '-' + dateObj.getUTCMonth() + '-' + dateObj.getUTCDay()
+            var value = dateObj.getUTCFullYear() + '-' + (dateObj.getUTCMonth() + 1) + '-' + dateObj.getDate()
             unitData[value] = u.price[date]
         }
     })
