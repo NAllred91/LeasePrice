@@ -37,7 +37,7 @@ var getUnitMostRecentPrice = (unit, date) => {
 
         if(data) {
             value = data.price[date]
-            return data.price[date]
+            return data.price[new Date(date).toLocaleDateString().replace(/\//g, '-')]
         }
     })
 
