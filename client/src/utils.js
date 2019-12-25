@@ -36,7 +36,8 @@ var getUnitMostRecentPrice = (unit, date) => {
         var data = d.data.find((i) => i.unit_number === unit)
 
         if(data) {
-            value = data.price[new Date(date).toLocaleDateString().replace(/\//g, '-')]
+            var d = new Date(date)
+            value = data.price[d.getUTCFullYear() + '-' + d.getUTCMonth() + '-' + d.getUTCDay()]
             return value
         }
     })
