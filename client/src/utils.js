@@ -46,5 +46,15 @@ var getUnitMostRecentPrice = (unit, date) => {
     return value
 }
 
+var getUnitPrices = (unit, date) => {
+    return _.compact(window.data.map((d) => {
+        var data = d.data.find((i) => i.unit_number === unit)
 
-export {getAllUnits, getAllAvailableUnits, getAllUnitsArea, getUnitsData, getUnitMostRecentPrice}
+        if(data) {
+            return data.price[date]
+        }
+    }))
+}
+
+
+export {getAllUnits, getAllAvailableUnits, getAllUnitsArea, getUnitsData, getUnitMostRecentPrice, getUnitPrices}

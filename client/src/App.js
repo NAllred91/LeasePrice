@@ -4,7 +4,7 @@ import getRawData from './getRawData'
 import _ from 'lodash'
 import { LineChart } from 'react-chartkick'
 import 'chart.js'
-import {getAllUnits, getUnitsData, getAllUnitsArea, getAllAvailableUnits, getUnitMostRecentPrice} from './utils'
+import {getAllUnits, getUnitsData, getAllUnitsArea, getAllAvailableUnits, getUnitMostRecentPrice, getUnitPrices} from './utils'
 
 class App extends React.Component {
   state = {
@@ -25,6 +25,14 @@ class App extends React.Component {
         units: getAllUnits()
       })
     })
+  }
+
+  getDifference = (unit) => {
+    var prices = getUnitPrices(unit, this.state.moveInDate)
+
+    if(prices.length > 1) {
+      return prices[prices.length - 1] - prices[prices.length - 2]
+    }
   }
 
   render() {
@@ -55,7 +63,7 @@ class App extends React.Component {
           }}>Toggle</button>
           <div>Available:</div>
           {window.allAvailableUnits.map(unit => (
-            <div>{unit + ': ' + window.allUnitsArea[unit] + ' : $' + (getUnitMostRecentPrice(unit, this.state.moveInDate) || '---')}
+            <div>{unit + ': ' + window.allUnitsArea[unit] + ' : $' + (getUnitMostRecentPrice(unit, this.state.moveInDate) || '---') + ' Difference: $' + this.getDifference(unit)}
               <input type='checkbox' checked={this.state.units.includes(unit)} onChange={(e) => {
                 var newUnits = this.state.units
                 if(e.target.checked) {
